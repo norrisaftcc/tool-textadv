@@ -45,14 +45,14 @@ An AI guide with a glowing blue outline stands nearby, ready to offer assistance
 A map on the wall shows the layout of a simple maze beyond the entrance."""
     
     # Connect rooms
-    pier_end.exits['north'] = boardwalk
-    boardwalk.exits['south'] = pier_end
-    boardwalk.exits['east'] = food_court
-    boardwalk.exits['west'] = arcade
-    boardwalk.exits['north'] = maze_entrance
-    food_court.exits['west'] = boardwalk
-    arcade.exits['east'] = boardwalk
-    maze_entrance.exits['south'] = boardwalk
+    pier_end.north = boardwalk
+    boardwalk.south = pier_end
+    boardwalk.east = food_court
+    boardwalk.west = arcade
+    boardwalk.north = maze_entrance
+    food_court.west = boardwalk
+    arcade.east = boardwalk
+    maze_entrance.south = boardwalk
     
     # Create items
     welcome_pamphlet = Item("pamphlet", "A colorful pamphlet titled 'Welcome to Alpha Cloudplex!'")

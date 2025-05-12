@@ -31,8 +31,8 @@ class TestCommandHandlers(unittest.TestCase):
         self.room2.name = "Test Room 2"
         
         # Connect the rooms
-        self.room1.exits['north'] = self.room2
-        self.room2.exits['south'] = self.room1
+        self.room1.north = self.room2
+        self.room2.south = self.room1
         
         # Create test items
         self.key = Item("key", "A test key.")

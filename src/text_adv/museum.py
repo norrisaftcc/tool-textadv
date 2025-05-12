@@ -54,15 +54,15 @@ The center of the room has a large interactive table with a glowing 3D model of 
 This is where visitors learn to create their own rooms, items, and puzzles."""
     
     # === Connect the rooms ===
-    entrance.exits['north'] = movement_room
-    entrance.exits['east'] = inventory_room
-    entrance.exits['west'] = items_room
-    entrance.exits['south'] = creation_room
-    
-    movement_room.exits['south'] = entrance
-    inventory_room.exits['west'] = entrance
-    items_room.exits['east'] = entrance
-    creation_room.exits['north'] = entrance
+    entrance.north = movement_room
+    entrance.east = inventory_room
+    entrance.west = items_room
+    entrance.south = creation_room
+
+    movement_room.south = entrance
+    inventory_room.west = entrance
+    items_room.east = entrance
+    creation_room.north = entrance
     
     # === Create and place items ===
     

@@ -38,11 +38,11 @@ class ColorTheme:
         "error": Fore.RED,
         "success": Fore.GREEN + Style.BRIGHT,
         "hint": Fore.MAGENTA + Style.DIM,
-        "speech": Fore.CYAN + Style.ITALIC,
+        "speech": Fore.CYAN,  # Style.ITALIC not available in all terminals
         "system": Fore.WHITE + Back.BLUE,
         "header": Fore.BLACK + Back.WHITE + Style.BRIGHT
     }
-    
+
     # Add more themes as needed
     SPOOKY = {
         "room_name": Fore.RED + Style.BRIGHT,
@@ -175,17 +175,24 @@ game_state = GameState()
 class Room(adv.Room):
     """
     Enhanced Room class with additional functionality.
-    
+
     Extends the adventurelib Room class with features like:
     - Different descriptions for first and subsequent visits
     - Visit tracking
     - Improved item management
+
+    Note on exits:
+    In adventurelib, connections between rooms are defined as attributes,
+    not through a dictionary. For example:
+
+        room1.north = room2  # NOT room1.exits['north'] = room2
+        room2.south = room1
     """
-    
+
     def __init__(self, description):
         """
         Initialize a new Room.
-        
+
         Args:
             description (str): The basic description of the room.
         """
@@ -260,8 +267,13 @@ class Room(adv.Room):
         Args:
             item (Item): The item to remove from the room.
         """
-        if hasattr(self, 'items') and item in self.items:
-            self.items.remove(item)
+        # In adventurelib, Bag.remove takes the item name as a string, not the item object
+        if hasattr(self, 'items'):
+            # Try to find the item by name
+            for i in list(self.items):
+                if i.name == item.name:
+                    self.items.remove(i)
+                    break
 
 # Enhanced Item class
 class Item(adv.Item):

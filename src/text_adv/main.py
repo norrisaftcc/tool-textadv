@@ -18,13 +18,11 @@ def setup_game():
     
     # Connect the Boardwalk to the Museum
     # Find the arcade room in the Boardwalk to connect
-    for direction, room in boardwalk_start.exits.items():
-        if hasattr(room, 'name') and "Arcade" in room.name:
-            arcade_room = room
-            arcade_room.exits['up'] = museum_start
-            museum_start.exits['down'] = arcade_room
-            museum_start.add_item_to_content("A small sign notes that you can return to the Boardwalk by going DOWN.")
-            break
+    arcade_room = boardwalk_start.exit('west')  # Arcade is west of the boardwalk
+    if arcade_room and hasattr(arcade_room, 'name') and "Arcade" in arcade_room.name:
+        arcade_room.up = museum_start
+        museum_start.down = arcade_room
+        museum_start.add_item_to_content("A small sign notes that you can return to the Boardwalk by going DOWN.")
     
     # Set the player's starting location
     set_current_room(boardwalk_start)

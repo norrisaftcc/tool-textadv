@@ -28,16 +28,16 @@ class TestMuseum(unittest.TestCase):
         self.assertEqual(self.entrance.name, "Museum Entrance Hall")
         
         # Check connections to other rooms
-        self.assertIn('north', self.entrance.exits)
-        self.assertIn('east', self.entrance.exits)
-        self.assertIn('west', self.entrance.exits)
-        self.assertIn('south', self.entrance.exits)
-        
+        self.assertIsNotNone(self.entrance.exit('north'))
+        self.assertIsNotNone(self.entrance.exit('east'))
+        self.assertIsNotNone(self.entrance.exit('west'))
+        self.assertIsNotNone(self.entrance.exit('south'))
+
         # Check the connected rooms
-        movement_room = self.entrance.exits['north']
-        inventory_room = self.entrance.exits['east']
-        items_room = self.entrance.exits['west']
-        creation_room = self.entrance.exits['south']
+        movement_room = self.entrance.exit('north')
+        inventory_room = self.entrance.exit('east')
+        items_room = self.entrance.exit('west')
+        creation_room = self.entrance.exit('south')
         
         self.assertEqual(movement_room.name, "Gallery of Movement")
         self.assertEqual(inventory_room.name, "Hall of Inventory")
@@ -45,10 +45,10 @@ class TestMuseum(unittest.TestCase):
         self.assertEqual(creation_room.name, "Workshop of Creation")
         
         # Check reverse connections
-        self.assertEqual(movement_room.exits['south'], self.entrance)
-        self.assertEqual(inventory_room.exits['west'], self.entrance)
-        self.assertEqual(items_room.exits['east'], self.entrance)
-        self.assertEqual(creation_room.exits['north'], self.entrance)
+        self.assertEqual(movement_room.exit('south'), self.entrance)
+        self.assertEqual(inventory_room.exit('west'), self.entrance)
+        self.assertEqual(items_room.exit('east'), self.entrance)
+        self.assertEqual(creation_room.exit('north'), self.entrance)
         
     def test_entrance_items(self):
         """Test that the entrance has the correct items."""
@@ -66,7 +66,7 @@ class TestMuseum(unittest.TestCase):
                 
     def test_movement_room(self):
         """Test the movement room and its items."""
-        movement_room = self.entrance.exits['north']
+        movement_room = self.entrance.exit('north')
         
         # Check items
         item_names = [item.name for item in movement_room.items]
@@ -86,7 +86,7 @@ class TestMuseum(unittest.TestCase):
         
     def test_inventory_room(self):
         """Test the inventory room and its items."""
-        inventory_room = self.entrance.exits['east']
+        inventory_room = self.entrance.exit('east')
         
         # Check items
         item_names = [item.name for item in inventory_room.items]
@@ -107,7 +107,7 @@ class TestMuseum(unittest.TestCase):
         
     def test_items_room(self):
         """Test the items interaction room and its objects."""
-        items_room = self.entrance.exits['west']
+        items_room = self.entrance.exit('west')
         
         # Check items
         item_names = [item.name for item in items_room.items]
@@ -134,7 +134,7 @@ class TestMuseum(unittest.TestCase):
         
     def test_creation_room(self):
         """Test the creation workshop room."""
-        creation_room = self.entrance.exits['south']
+        creation_room = self.entrance.exit('south')
         
         # Check items
         item_names = [item.name for item in creation_room.items]
@@ -156,9 +156,9 @@ class TestMuseum(unittest.TestCase):
     def test_use_sample_collection(self, mock_print):
         """Test the use_sample_collection function that adds items to room."""
         from text_adv.museum import use_sample_collection
-        
+
         # Setup
-        inventory_room = self.entrance.exits['east']
+        inventory_room = self.entrance.exit('east')
         game_state.current_room = inventory_room
         
         # Get the collection item
@@ -193,9 +193,9 @@ class TestMuseum(unittest.TestCase):
     def test_unlock_case(self, mock_print):
         """Test the key and case interaction."""
         from text_adv.museum import unlock_case
-        
+
         # Setup
-        items_room = self.entrance.exits['west']
+        items_room = self.entrance.exit('west')
         game_state.current_room = items_room
         
         # Get key and case
