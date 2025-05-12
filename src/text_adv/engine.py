@@ -233,18 +233,30 @@ class Room(adv.Room):
     def add_item(self, item):
         """
         Add an item to the room.
-        
+
         Args:
             item (Item): The item to add to the room.
         """
         if not hasattr(self, 'items'):
             self.items = adv.Bag()
         self.items.add(item)
-    
+
+    def add_item_to_content(self, content):
+        """
+        Add text content to the room's description.
+
+        Args:
+            content (str): The text to add to the room's description.
+        """
+        if hasattr(self, 'long_description') and self.long_description:
+            self.long_description += "\n" + content
+        if hasattr(self, 'short_description'):
+            self.short_description += "\n" + content
+
     def remove_item(self, item):
         """
         Remove an item from the room.
-        
+
         Args:
             item (Item): The item to remove from the room.
         """
